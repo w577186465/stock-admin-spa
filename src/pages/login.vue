@@ -37,8 +37,11 @@ export default {
   methods: {
     login: function () {
       axios.post('http://api.share.localhost/oauth/token', {
-        email: this.email,
-        password: this.password
+        grant_type: 'password',
+        client_secret: 'iiy3sLJEX6gSed7qQuLbcuBMROenMTvFiG4p6hRa',
+        client_id: '4',
+        username: 'passwoo@163.com',
+        password: '123456'
       })
       .then(function (res) {
         console.log(res)
