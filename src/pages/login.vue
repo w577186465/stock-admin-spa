@@ -2,20 +2,13 @@
   <div>
     <div class="warp">
       <form v-on:submit.prevent="login">
-        <md-field>
-          <label for="first-name">邮箱</label>
-          <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.email" :disabled="sending" />
-          <!-- <span class="md-error" v-if="!form.username.required">The first name is required</span> -->
-          <!-- <span class="md-error" v-else-if="!form.username.minlength">Invalid first name</span> -->
-        </md-field>
-
-        <md-field>
-          <label for="first-name">密码</label>
-          <md-input type="password" name="first-name" id="first-name" autocomplete="given-name" v-model="form.password" :disabled="sending" />
-          <!-- <span class="md-error" v-if="!form.username.required">The first name is required</span> -->
-          <!-- <span class="md-error" v-else-if="!form.username.minlength">Invalid first name</span> -->
-        </md-field>
-        <md-button @click="login" class="md-raised md-primary">登录后台</md-button>
+        <mu-text-field label="浮动标签" v-model="form.email" labelFloat fullWidth/><br/>
+        <mu-text-field label="密码" hintText="请输入密码" v-model="form.password" type="password" labelFloat fullWidth/><br/>
+        <div class="line">
+            <mu-checkbox label="记住我" class="member" primary/>
+            <mu-flat-button label="忘记密码？" class="demo-flat-button" primary/>
+        </div>
+        <mu-raised-button @click="login()" label="login" class="login-button" fullWidth/>
       </form>
     </div>
 
@@ -54,7 +47,29 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  .line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .member .mu-checkbox-icon-uncheck {
+      color: rgba(125, 125, 125, 0.87);
+  }
+
+  .login-button {
+    color: #fff;
+    background-color: #2196f3;
+    margin-top: 10px;
+    height: 50px;
+
+    .mu-raised-button-wrapper {
+      height: 50px;
+    }
+  }
+
   .md-progress-bar {
     position: absolute;
     top: 0;
@@ -63,7 +78,7 @@ export default {
   }
 
   .warp {
-    width: 400px;
+    max-width: 400px;
     margin: 0 auto;
     padding: 15px;
     position: absolute;

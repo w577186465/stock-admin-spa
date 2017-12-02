@@ -4,11 +4,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
 import router from './router'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
+import MuseUI from 'muse-ui'
+import 'muse-ui/dist/muse-ui.css'
+import 'muse-ui/dist/theme-light.css'
 
 Vue.use(Vuex)
-Vue.use(VueMaterial)
+Vue.use(MuseUI)
 
 Vue.config.productionTip = false
 
