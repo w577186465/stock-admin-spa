@@ -1,12 +1,15 @@
 <template>
   <div>
+    <mu-popup position="top" :overlay="false" popupClass="demo-popup-top" :open="topPopup">
+    {{result}}
+    </mu-popup>
     <div class="warp">
       <form v-on:submit.prevent="login">
-        <mu-text-field label="浮动标签" v-model="form.email" labelFloat fullWidth/><br/>
+        <mu-text-field label="用户名" v-model="form.email" labelFloat fullWidth/><br/>
         <mu-text-field label="密码" hintText="请输入密码" v-model="form.password" type="password" labelFloat fullWidth/><br/>
         <div class="line">
-            <mu-checkbox label="记住我" class="member" primary/>
-            <mu-flat-button label="忘记密码？" class="demo-flat-button" primary/>
+            <mu-switch label="长期登录" class="demo-switch" />
+            <mu-flat-button label="找回密码" class="demo-flat-button" primary/>
         </div>
         <mu-raised-button @click="login()" label="login" class="login-button" fullWidth/>
       </form>
@@ -17,6 +20,7 @@
 
 <script>
 import axios from 'axios'
+
 export default {
   name: 'login',
   data () {
@@ -24,23 +28,26 @@ export default {
       form: {
         username: null
       },
-      sending: false
+      sending: false,
+      result: ''
     }
   },
   methods: {
     login: function () {
-      axios.post('http://api.share.localhost/oauth/token', {
+      this.result = 'logining'
+      this.topPopup = true
+      axios.post('http://localhost:8000/oauth/token', {
         grant_type: 'password',
-        client_secret: 'iiy3sLJEX6gSed7qQuLbcuBMROenMTvFiG4p6hRa',
-        client_id: '4',
-        username: 'passwoo@163.com',
-        password: '123456'
+        client_secret: 'tWD3fypk6ZHn3i7lzn5SUc61LLkhgz7lLH6cHwmG',
+        client_id: '2',
+        username: this.form.email,
+        password: this.form.password
       })
-      .then(function (res) {
-        console.log(res)
+      .then(res => {
+        this.result = 'success'
       })
-      .catch(function (err) {
-        console.log(err)
+      .catch(res => {
+        this.result = 'error'
       })
     }
   }
@@ -48,11 +55,21 @@ export default {
 </script>
 
 <style lang="scss">
+  .demo-popup-top {
+    width: 100%;
+    opacity: .8;
+    height: 48px;
+    line-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 375px;
+  }
   .line {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 20px 0;
+    margin: 1rem 0;
   }
 
   .member .mu-checkbox-icon-uncheck {
@@ -78,6 +95,7 @@ export default {
   }
 
   .warp {
+    width: 100%;
     max-width: 400px;
     margin: 0 auto;
     padding: 15px;
