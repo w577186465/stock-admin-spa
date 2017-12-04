@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mu-popup position="top" :overlay="false" popupClass="demo-popup-top" :open="topPopup">
+    <mu-popup position="top" :overlay="false" :popupClass="['popuptop', resultcode]" :open="topPopup">
     {{result}}
     </mu-popup>
     <div class="warp">
@@ -29,33 +29,52 @@ export default {
         username: null
       },
       sending: false,
-      result: ''
+      result: '',
+      resultcode: '',
+      topPopup: false // 结果提示显示状态
     }
+  },
+  computed: {
   },
   methods: {
     login: function () {
-      this.result = 'logining'
+      this.result = '正在登录'
       this.topPopup = true
       axios.post('http://localhost:8000/oauth/token', {
         grant_type: 'password',
-        client_secret: 'tWD3fypk6ZHn3i7lzn5SUc61LLkhgz7lLH6cHwmG',
+        client_secret: 'hixFzkhdShHnLlQdnxwtTyiIj0S6sRvXuJkGkMYP',
         client_id: '2',
-        username: this.form.email,
-        password: this.form.password
+        // username: this.form.email,
+        // password: this.form.password
+        username: 'passwoo@163.com',
+        password: '123456'
       })
       .then(res => {
-        this.result = 'success'
+        // console.log(res.data)
+        this.$store.dispatch('login', res.data.access_token)
+        this.result = '登录成功'
+        this.resultcode = 'success'
+        this.$router.push('/')
+        this.close()
       })
       .catch(res => {
-        this.result = 'error'
+        this.result = '登录失败'
+        this.resultcode = 'fail'
+        this.close()
       })
+    },
+    close: function () {
+      setTimeout(() => {
+        this.topPopup = false
+        this.resultcode = ''
+      }, 3000)
     }
   }
 }
 </script>
 
 <style lang="scss">
-  .demo-popup-top {
+  .popuptop {
     width: 100%;
     opacity: .8;
     height: 48px;
@@ -64,6 +83,14 @@ export default {
     align-items: center;
     justify-content: center;
     max-width: 375px;
+    background-color: #616161;
+    color: #fff;
+  }
+  .success {
+    background-color: #24ab5a;
+  }
+  .fail {
+    background-color: #e81919;
   }
   .line {
     display: flex;

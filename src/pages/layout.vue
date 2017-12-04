@@ -17,6 +17,12 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js'
     }
+  },
+  created: function () {
+    this.axios.get('http://localhost:8000/api/test')
+    .then(res => {
+      console.log(res)
+    })
   }
 }
 </script>
