@@ -20,7 +20,10 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: login
+      component: login,
+      meta: {
+        cannotlogin: true
+      }
     }
   ]
 })
@@ -30,13 +33,17 @@ if (window.localStorage.getItem('token')) {
 }
 
 router.beforeEach((to, from, next) => {
+  // 登录后禁止访问
+  if (to.meta.cannotlogin) {
+    if (store.getters.accessToken) {
+      next('/')
+    }
+  }
   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-    if (store.state.auth.token) {  // 通过vuex state获取当前的token是否存在
+    if (store.getters.accessToken) {  // 通过vuex state获取当前的token是否存在
       next()
     } else {
-      next({
-        path: '/login'
-      })
+      next('/login')
     }
   } else {
     next()
