@@ -16,6 +16,9 @@ export default {
 </script>
 
 <style lang="scss">
+  html, body {
+    height: 100%;
+  }
   body {
     width: 100%;
     font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -51,5 +54,9 @@ export default {
     vertical-align:-.15em;
     fill:currentColor;
     overflow:hidden;
+  }
+
+  #app {
+    height: 100%;
   }
 </style>
